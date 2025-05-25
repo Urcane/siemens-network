@@ -49,6 +49,7 @@
                 overflow-y: auto;
                 font-family: monospace;
                 border-radius: 0.5rem;
+                white-space: pre-wrap;
             }
         </style>
 
