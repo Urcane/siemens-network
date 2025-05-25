@@ -23,7 +23,7 @@ class ModbusController extends Controller
             'quantity' => $validated['quantity'],
         ];
 
-        $mqtt = MQTT::connection();
+        $mqtt = MQTT::connection('default3');
         $mqtt->publish('modbus/read/input', json_encode($data), 0);
 
         return response()->json(['success' => true]);
@@ -45,7 +45,7 @@ class ModbusController extends Controller
             'quantity' => 1,
         ];
 
-        $mqtt = MQTT::connection();
+        $mqtt = MQTT::connection('default3');
         $mqtt->publish('modbus/write/input', json_encode($data), 0);
 
         return response()->json(['success' => true]);
