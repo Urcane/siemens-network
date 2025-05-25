@@ -107,6 +107,13 @@
                 resultBox += `<p>${e.payload}</p>`;
                 $('#resultBox').html(resultBox);
             });
+
+        window.Echo.channel('flood-output-error')
+            .listen('.output', function (e) {
+                // console.log(e.payload);
+                resultBox += `<p>${e.payload}</p>`;
+                $('#resultBox').html(resultBox);
+            });
 </script>
 @endpush
 

@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Events\FloodOutput;
+use App\Events\FloodOutputError;
 use Illuminate\Console\Command;
 use PhpMqtt\Client\Facades\MQTT;
 use App\Events\ModbusOutputReceived;
@@ -25,6 +26,7 @@ class MqttConsoleBridge extends Command
             'ping/output/msg' => PingOutput::class,
             'nmap/output/msg' => NmapOutput::class,
             'flood/output/msg' => FloodOutput::class,
+            'flood/output/error' => FloodOutputError::class,
         ];
 
         while (true) {
