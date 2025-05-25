@@ -44,6 +44,18 @@ return [
             'keep_alive' => 60,
         ],
 
+        'default3' => [
+            'host' => env('MQTT_BROKER_HOST', '127.0.0.1'),
+            'port' => env('MQTT_BROKER_PORT', 1883),
+            'username' => env('MQTT_USERNAME'),
+            'password' => env('MQTT_PASSWORD'),
+            'client_id' => env('MQTT_CLIENT_ID', 'laravel_mqtt_client_publish'),
+            'clean_session' => true,
+            'use_tls' => false,
+            'protocol' => MqttClient::MQTT_3_1,  // 👈 this is correct!
+            'keep_alive' => 60,
+        ],
+
         'default' => [
 
             // The host and port to which the client shall connect.

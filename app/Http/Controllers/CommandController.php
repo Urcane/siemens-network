@@ -19,7 +19,7 @@ class CommandController extends Controller
             'ip' => $validated['ip'],
         ];
 
-        $mqtt = MQTT::connection();
+        $mqtt = MQTT::connection('default3');
         $mqtt->publish('ping/input', json_encode($data), 0);
 
         return response()->json(['success' => true]);
@@ -39,7 +39,7 @@ class CommandController extends Controller
             'top_ports' => $validated['top_ports'],
         ];
 
-        $mqtt = MQTT::connection();
+        $mqtt = MQTT::connection('default3');
         $mqtt->publish('nmap/input', json_encode($data), 0);
 
         return response()->json(['success' => true]);
@@ -59,7 +59,7 @@ class CommandController extends Controller
             'port' => $validated['port'] ?? null,
         ];
 
-        $mqtt = MQTT::connection();
+        $mqtt = MQTT::connection('default3');
         $mqtt->publish('flood/input', json_encode($data), 0);
 
         return response()->json(['success' => true]);

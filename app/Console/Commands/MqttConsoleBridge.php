@@ -44,7 +44,7 @@ class MqttConsoleBridge extends Command
             } catch (MqttClientException $e) {
                 echo "⚠️ MQTT Error: " . $e->getMessage() . PHP_EOL;
                 // Optionally log with Laravel:
-                // Log::error('MQTT crashed', ['error' => $e->getMessage()]);
+                Log::error('MQTT crashed', ['error' => $e->getMessage()]);
             } catch (\Throwable $e) {
                 echo "🔥 Unexpected error: " . $e->getMessage() . PHP_EOL;
             }
