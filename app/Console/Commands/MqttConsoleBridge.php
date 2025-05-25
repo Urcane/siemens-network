@@ -10,6 +10,7 @@ use App\Events\ModbusOutputWrite;
 use App\Events\NmapOutput;
 use App\Events\PingOutput;
 use Illuminate\Support\Facades\Log;
+use PhpMqtt\Client\Exceptions\MqttClientException;
 
 class MqttConsoleBridge extends Command
 {
@@ -18,38 +19,39 @@ class MqttConsoleBridge extends Command
 
     public function handle()
     {
-        try {
-            $mqtt = MQTT::connection();
-            $mqtt->subscribe('modbus/read/output', function (string $topic, string $message) {
-                echo sprintf('Received QoS level 1 message on topic [%s]: %s', $topic, $message);
-                event(new ModbusOutputReceived($message));
-            }, 1);
+        $subscriptions = [
+            'modbus/read/output' => ModbusOutputReceived::class,
+            'modbus/write/output' => ModbusOutputWrite::class,
+            'ping/output/msg' => PingOutput::class,
+            'nmap/output/msg' => NmapOutput::class,
+            'flood/output/msg' => FloodOutput::class,
+        ];
 
-            $mqtt->subscribe('modbus/write/output', function (string $topic, string $message) {
-                echo sprintf('Received QoS level 1 message on topic [%s]: %s', $topic, $message);
-                event(new ModbusOutputWrite($message));
-            }, 1);
+        while (true) {
+            try {
+                $mqtt = MQTT::connection();
 
-            $mqtt->subscribe('ping/output/msg', function (string $topic, string $message) {
-                echo sprintf('Received QoS level 1 message on topic [%s]: %s', $topic, $message);
-                event(new PingOutput($message));
-            }, 1);
+                foreach ($subscriptions as $topic => $eventClass) {
+                    $mqtt->subscribe($topic, function (string $topic, string $message) use ($eventClass) {
+                        echo sprintf('[%s] %s' . PHP_EOL, $topic, $message);
+                        event(new $eventClass($message));
+                    }, 1);
+                }
 
-            $mqtt->subscribe('nmap/output/msg', function (string $topic, string $message) {
-                echo sprintf('Received QoS level 1 message on topic [%s]: %s', $topic, $message);
-                event(new NmapOutput($message));
-            }, 1);
+                echo "✅ MQTT Connected & Subscribed" . PHP_EOL;
 
-            $mqtt->subscribe('flood/output/msg', function (string $topic, string $message) {
-                echo sprintf('Received QoS level 1 message on topic [%s]: %s', $topic, $message);
-                event(new FloodOutput($message));
-            }, 1);
-            $mqtt->loop(true);
+                $mqtt->loop(true); // Will block here until error
+            } catch (MqttClientException $e) {
+                echo "⚠️ MQTT Error: " . $e->getMessage() . PHP_EOL;
+                // Optionally log with Laravel:
+                // Log::error('MQTT crashed', ['error' => $e->getMessage()]);
+            } catch (\Throwable $e) {
+                echo "🔥 Unexpected error: " . $e->getMessage() . PHP_EOL;
+            }
 
-            // return 0;
-        } catch (\Throwable $th) {
-            Log::error($th);
-            echo sprintf('Error: %s:', $th);
+            // Wait before retrying (avoid rapid reconnect loops)
+            echo "🔁 Reconnecting in 5 seconds..." . PHP_EOL;
+            sleep(5);
         }
     }
 }
