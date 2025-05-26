@@ -68,7 +68,7 @@ class ModbusController extends Controller
         ]);
 
         $data = [
-            "mode" => $validated['mode'],
+            "mode" => $validated['mode'] ? 'start' : 'stop',
             "interface" => 'eth0',
             "port" => $validated['port'],
         ];
