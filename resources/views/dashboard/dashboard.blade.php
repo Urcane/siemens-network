@@ -69,6 +69,15 @@
                             <label class="form-label">Interval (In Seconds)</label>
                             <input type="number" name="interval" class="form-control" required>
                         </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Network interface</label>
+                            <select class="form-control bs-select" data-live-search="false" id="interface" name="interface">
+                                <option value="">Select Interface</option>
+                                <option value="eth0">eth0</option>
+                                <option value="lo0">lo0</option>
+                            </select>
+                        </div>
+                        
                     </div>
 
                     <div class="row g-3">
@@ -94,6 +103,8 @@
     $(document).ready(function () {
         let intervalId = null;
 
+        $('.bs-select').selectpicker();
+
         $('#modbusForm').on('submit', function (e) {
             e.preventDefault();
 
@@ -103,6 +114,7 @@
             let deviceId = $('input[name="device_id"]').val();
             let address = $('input[name="address"]').val();
             let quantity = $('input[name="quantity"]').val();
+            let interface = $('select[name="interface"]').val();
             let interval = $('input[name="interval"]').val() * 1000;
 
             // Clear any existing interval before starting a new one
@@ -163,6 +175,7 @@
                 data: JSON.stringify({
                     mode: "1",
                     port: port,
+                    interface: interface,
                     _token: "{{ csrf_token() }}"
                 }),
                 success: function (res) {
@@ -218,6 +231,7 @@
                 data: JSON.stringify({
                     mode: "0",
                     port: "502",
+                    interface: "eth0",
                     _token: "{{ csrf_token() }}"
                 }),
                 success: function (res) {

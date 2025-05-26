@@ -65,11 +65,12 @@ class ModbusController extends Controller
         $validated = $request->validate([
             'mode' => 'required|boolean',
             'port' => 'required|integer',
+            'interface' => 'required',
         ]);
 
         $data = [
             "mode" => $validated['mode'] ? 'start' : 'stop',
-            "interface" => 'eth0',
+            "interface" => $validated['interface'],
             "port" => $validated['port'],
         ];
 
