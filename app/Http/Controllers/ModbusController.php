@@ -14,14 +14,14 @@ class ModbusController extends Controller
             'port' => 'required|integer',
             'address' => 'required|integer',
             'quantity' => 'required|integer',
-            'function_code' => 'required|integer',
+            'fc' => 'required|integer',
             'device_id' => 'required|integer',
         ]);
 
         $data = [
             "ip_address" => $validated['ip_address'],
             "port" => $validated['port'],
-            'fc' => $validated['device_id'],
+            'fc' => $validated['fc'],
             'unitId' => $validated['device_id'],
             'address' => $validated['address'],
             'quantity' => $validated['quantity'],
