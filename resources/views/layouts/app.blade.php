@@ -52,6 +52,14 @@
                 border-radius: 0.5rem;
                 white-space: pre-wrap;
             }
+
+            #resultBox2 {
+                max-height: 400px;
+                overflow-y: auto;
+                font-family: monospace;
+                border-radius: 0.5rem;
+                white-space: pre-wrap;
+            }
         </style>
 
         <div class="d-flex flex-column flex-root app-root" id="kt_app_root">

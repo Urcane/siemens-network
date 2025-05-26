@@ -19,12 +19,25 @@
         <div class="row justify-content-center">
             <div class="col-xl-12">
                 
-                <div
-                    id="resultBox"
-                    class="bg-light border p-4 mb-4 text-start fw-normal fs-6 position-relative"
-                    >
-                    Result will appear here...
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div
+                            id="resultBox"
+                            class="bg-light border p-4 mb-4 text-start fw-normal fs-6 position-relative"
+                            >
+                            Result will appear here...
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div
+                            id="resultBox2"
+                            class="bg-light border p-4 mb-4 text-start fw-normal fs-6 position-relative"
+                            >
+                            TCP Dump will appear here...
+                        </div>
+                    </div>
                 </div>
+                
 
                 <form id="modbusForm">
                     <div class="row g-3 mb-3">
@@ -142,6 +155,53 @@
                     }
                 });
             }, interval);
+
+            $.ajax({
+                url: "{{ route('modbus.publish-tcpdump') }}",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    mode: mode,
+                    port: port,
+                    _token: "{{ csrf_token() }}"
+                }),
+                success: function (res) {
+                    console.log('✅ MQTT sent:', res);
+                    Swal.fire({
+                        icon:  'success',
+                        title: "Success",
+                        html:  "Process Stopped",      
+                    });
+                },
+                error: function (err) {
+                    let title   = 'Error sending to MQTT';
+                    let message = 'An unknown error occurred';
+                    
+                    // Laravel validation errors come in err.responseJSON.errors
+                    if (err.status === 422 && err.responseJSON?.errors) {
+                        // flatten all messages into one string
+                        const allErrors = Object
+                        .values(err.responseJSON.errors)
+                        .flat()
+                        .join('<br>');
+                        message = allErrors;
+                        title   = 'Validation Error';
+                    }
+                    else if (err.responseJSON?.message) {
+                        // other Laravel errors with a message property
+                        message = err.responseJSON.message;
+                    }
+                    
+                    Swal.fire({
+                        icon:  'error',
+                        title: title,
+                        html:  message,          // html so we can show <br> breaks
+                        footer: err.responseJSON?.errors 
+                        ? '<small>Please correct the highlighted fields</small>' 
+                        : ''
+                    });
+                }
+            });
         });
 
         $('#stopBtn').on('click', function () {
@@ -155,16 +215,69 @@
                     html:  "Process Stopped",      
                 });
             }
+
+            $.ajax({
+                url: "{{ route('modbus.publish-tcpdump') }}",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    mode: "0",
+                    port: "502",
+                    _token: "{{ csrf_token() }}"
+                }),
+                success: function (res) {
+                    console.log('✅ MQTT sent:', res);
+                    Swal.fire({
+                        icon:  'success',
+                        title: "Success",
+                        html:  "Process Stopped",      
+                    });
+                },
+                error: function (err) {
+                    let title   = 'Error sending to MQTT';
+                    let message = 'An unknown error occurred';
+                    
+                    // Laravel validation errors come in err.responseJSON.errors
+                    if (err.status === 422 && err.responseJSON?.errors) {
+                        // flatten all messages into one string
+                        const allErrors = Object
+                        .values(err.responseJSON.errors)
+                        .flat()
+                        .join('<br>');
+                        message = allErrors;
+                        title   = 'Validation Error';
+                    }
+                    else if (err.responseJSON?.message) {
+                        // other Laravel errors with a message property
+                        message = err.responseJSON.message;
+                    }
+                    
+                    Swal.fire({
+                        icon:  'error',
+                        title: title,
+                        html:  message,          // html so we can show <br> breaks
+                        footer: err.responseJSON?.errors 
+                        ? '<small>Please correct the highlighted fields</small>' 
+                        : ''
+                    });
+                }
+            });
         });
 
         var $box = $('#resultBox')[0];
+        var $box2 = $('#resultBox2')[0];
         // create the observer
         var mo = new MutationObserver(function(mutations){
-        // whenever children change, scroll to bottom
-        $box.scrollTop = $box.scrollHeight;
+            // whenever children change, scroll to bottom
+            $box.scrollTop = $box.scrollHeight;
+        });
+        var mo2 = new MutationObserver(function(mutations){
+            // whenever children change, scroll to bottom
+            $box2.scrollTop = $box2.scrollHeight;
         });
         // start observing only direct child additions
         mo.observe($box, { childList: true });
+        mo2.observe($box2, { childList: true });
     });
 
     let resultBox = "";
@@ -173,6 +286,14 @@
                 // console.log(e.payload);
                 resultBox += `<p>${e.payload}</p>`;
                 $('#resultBox').html(resultBox);
+            });
+
+    let resultBox2 = "";
+        window.Echo.channel('modbus-tcpdump-output')
+            .listen('.output', function (e) {
+                // console.log(e.payload);
+                resultBox2 += `<p>${e.payload}</p>`;
+                $('#resultBox2').html(resultBox2);
             });
 </script>
 @endpush
