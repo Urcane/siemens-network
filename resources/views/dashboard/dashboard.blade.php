@@ -161,7 +161,7 @@
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    mode: mode,
+                    mode: "1",
                     port: port,
                     _token: "{{ csrf_token() }}"
                 }),
