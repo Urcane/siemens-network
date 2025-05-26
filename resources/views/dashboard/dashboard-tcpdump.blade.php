@@ -111,7 +111,7 @@
     });
 
     let resultBox = "";
-        window.Echo.channel('ping-output')
+        window.Echo.channel('modbus-tcpdump-output')
             .listen('.output', function (e) {
                 // console.log(e.payload);
                 resultBox += `<p>${e.payload}</p>`;
