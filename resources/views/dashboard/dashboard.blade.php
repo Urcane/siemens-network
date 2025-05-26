@@ -236,11 +236,6 @@
                 }),
                 success: function (res) {
                     console.log('✅ MQTT sent:', res);
-                    Swal.fire({
-                        icon:  'success',
-                        title: "Success",
-                        html:  "Process Stopped",      
-                    });
                 },
                 error: function (err) {
                     let title   = 'Error sending to MQTT';
