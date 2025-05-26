@@ -8,6 +8,7 @@ use Illuminate\Console\Command;
 use PhpMqtt\Client\Facades\MQTT;
 use App\Events\ModbusOutputReceived;
 use App\Events\ModbusOutputWrite;
+use App\Events\ModbusTcpdumpOutput;
 use App\Events\NmapOutput;
 use App\Events\PingOutput;
 use Illuminate\Support\Facades\Log;
@@ -27,7 +28,7 @@ class MqttConsoleBridge extends Command
             'nmap/output/msg' => NmapOutput::class,
             'flood/output/msg' => FloodOutput::class,
             'flood/output/error' => FloodOutputError::class,
-            'modbus/tcpdump/output' => FloodOutputError::class,
+            'modbus/tcpdump/output' => ModbusTcpdumpOutput::class,
         ];
 
         while (true) {
