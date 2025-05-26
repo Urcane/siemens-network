@@ -103,7 +103,7 @@
     $(document).ready(function () {
         let intervalId = null;
 
-        $('.bs-select').selectpicker();
+        // $('.bs-select').selectpicker();
 
         $('#modbusForm').on('submit', function (e) {
             e.preventDefault();
