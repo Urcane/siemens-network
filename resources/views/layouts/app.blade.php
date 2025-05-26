@@ -20,6 +20,7 @@
     <link href="{{asset('siemens')}}/plugins/global/plugins.bundle.css" rel="stylesheet" type="text/css" />
     <link href="{{asset('siemens')}}/css/style.bundle.css" rel="stylesheet" type="text/css" />
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{asset('siemens')}}/css/leaflet.css" crossorigin="" />
     <script src="{{asset('siemens')}}/js/leaflet.js"  crossorigin=""></script>
 </head>
@@ -110,7 +111,32 @@
                             console.log('✅ MQTT sent:', res);
                         },
                         error: function (err) {
-                            console.error('❌ Error sending to MQTT:', err.responseJSON);
+                            let title   = 'Error sending to MQTT';
+    let message = 'An unknown error occurred';
+
+    // Laravel validation errors come in err.responseJSON.errors
+    if (err.status === 422 && err.responseJSON?.errors) {
+      // flatten all messages into one string
+      const allErrors = Object
+        .values(err.responseJSON.errors)
+        .flat()
+        .join('<br>');
+      message = allErrors;
+      title   = 'Validation Error';
+    }
+    else if (err.responseJSON?.message) {
+      // other Laravel errors with a message property
+      message = err.responseJSON.message;
+    }
+
+    Swal.fire({
+      icon:  'error',
+      title: title,
+      html:  message,          // html so we can show <br> breaks
+      footer: err.responseJSON?.errors 
+        ? '<small>Please correct the highlighted fields</small>' 
+        : ''
+    });
                         }
                     });
                 });
