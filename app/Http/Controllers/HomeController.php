@@ -20,6 +20,13 @@ class HomeController extends Controller
         return view('dashboard.dashboard-write', compact('homepage'));
     }
 
+    public function indexTcpdump(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $homepage = "Dashboard";
+        return view('dashboard.dashboard-tcpdump', compact('homepage'));
+    }
+
     public function indexPing(Request $request)
     {
         $user_id = auth()->user()->id;

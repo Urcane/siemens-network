@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(HomeController::class)->group(function () {
         Route::get('/', 'index')->name('dashboard');
         Route::get('/modbus-write', 'indexWrite')->name('dashboard-write');
+        Route::get('/modbus-tcpdump', 'indexTcpdump')->name('dashboard-tcpdump');
         Route::get('/ping', 'indexPing')->name('ping.index');
         Route::get('/nmap', 'indexNmap')->name('nmap.index');
         Route::get('/flood', 'indexFlood')->name('flood.index');
@@ -41,9 +42,11 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::post('/modbus/read', [ModbusController::class, 'publishRead'])->name('modbus.publish-read');
+Route::post('/modbus/tcpdump', [ModbusController::class, 'publishTcpdump'])->name('modbus.publish-tcpdump');
 Route::post('/modbus/write', [ModbusController::class, 'publishWrite'])->name('modbus.publish-write');
 Route::post('/ping/send', [CommandController::class, 'publishPing'])->name('ping.send');
 Route::post('/nmap/send', [CommandController::class, 'publishNmap'])->name('nmap.send');
 Route::post('/flood/send', [CommandController::class, 'publishFlood'])->name('flood.send');
+Route::post('/stop/all', [CommandController::class, 'stopAll'])->name('stop.all');
 
 require __DIR__ . '/auth.php';

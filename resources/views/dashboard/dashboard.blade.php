@@ -28,16 +28,24 @@
 
                 <form id="modbusForm">
                     <div class="row g-3 mb-3">
-                        {{-- <div class="col-md-6">
-                            <label class="form-label">Function Code</label>
-                            <input type="number" name="function_code" class="form-control" required>
-                        </div> --}}
+                        <div class="col-md-6">
+                            <label class="form-label">Ip Address</label>
+                            <input type="text" name="ip_address" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Port</label>
+                            <input type="number" name="port" class="form-control" required>
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Device Id</label>
                             <input type="number" name="device_id" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Address</label>
+                            <label class="form-label">Function Code</label>
+                            <input type="number" name="function_code" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Register</label>
                             <input type="number" name="address" class="form-control" required>
                         </div>
                         <div class="col-md-6">
@@ -45,12 +53,19 @@
                             <input type="number" name="quantity" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Pool</label>
-                            <input type="number" name="pool" class="form-control" required>
+                            <label class="form-label">Interval (In Seconds)</label>
+                            <input type="number" name="interval" class="form-control" required>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" id="stopBtn" class="btn btn-danger w-100">Stop</button>
+                        </div>
+                    </div>
                 </form>
                 
             </div>
@@ -64,25 +79,34 @@
 
 <script>
     $(document).ready(function () {
+        let intervalId = null;
+
         $('#modbusForm').on('submit', function (e) {
             e.preventDefault();
 
+            let ip_address = $('input[name="ip_address"]').val();
+            let port = $('input[name="port"]').val();
+            let fc = $('input[name="function_code"]').val();
+            let deviceId = $('input[name="device_id"]').val();
             let address = $('input[name="address"]').val();
             let quantity = $('input[name="quantity"]').val();
-            // let functionCode = $('input[name="function_code"]').val();
-            let deviceId = $('input[name="device_id"]').val();
-            let interval = $('input[name="pool"]').val() * 1000;
+            let interval = $('input[name="interval"]').val() * 1000;
 
-            setInterval(() => {
+            // Clear any existing interval before starting a new one
+            if (intervalId) clearInterval(intervalId);
+
+            intervalId = setInterval(() => {
                 $.ajax({
                     url: "{{ route('modbus.publish-read') }}",
                     method: "POST",
                     contentType: "application/json",
                     data: JSON.stringify({
+                        ip_address: ip_address,
+                        port: port,
+                        fc: fc,
+                        device_id: deviceId,
                         address: address,
                         quantity: quantity,
-                        // function_code: functionCode,
-                        device_id: deviceId,
                         _token: "{{ csrf_token() }}"
                     }),
                     success: function (res) {
@@ -93,17 +117,24 @@
                     }
                 });
             }, interval);
-            
+        });
+
+        $('#stopBtn').on('click', function () {
+            if (intervalId) {
+                clearInterval(intervalId);
+                intervalId = null;
+                console.log('🛑 Interval stopped.');
+            }
         });
 
         var $box = $('#resultBox')[0];
-    // create the observer
-    var mo = new MutationObserver(function(mutations){
-      // whenever children change, scroll to bottom
-      $box.scrollTop = $box.scrollHeight;
-    });
-    // start observing only direct child additions
-    mo.observe($box, { childList: true });
+        // create the observer
+        var mo = new MutationObserver(function(mutations){
+        // whenever children change, scroll to bottom
+        $box.scrollTop = $box.scrollHeight;
+        });
+        // start observing only direct child additions
+        mo.observe($box, { childList: true });
     });
 
     let resultBox = "";

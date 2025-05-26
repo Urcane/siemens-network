@@ -63,6 +63,14 @@
 								<span class="menu-title">Modbus Write</span>
 							</a>
 						</div>
+						<div class="menu-item">
+							<a class="menu-link" href="{{route('dashboard-tcpdump')}}">
+								<span class="menu-bullet">
+									<span class="bullet bullet-dot"></span>
+								</span>
+								<span class="menu-title">Modbus TCP DUMP</span>
+							</a>
+						</div>
 					</div>
 				</div>
 

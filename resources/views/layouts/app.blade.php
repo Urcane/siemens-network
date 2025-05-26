@@ -94,6 +94,26 @@
                 $('.data-template').show();
                 $('.skeleton-template').remove();
                 setInterval(showTime, 1000); 
+
+                $('#stopAllBtn').on('click', function (e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "{{ route('stop.all') }}",
+                        method: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({
+                            mode: '0',
+                            _token: "{{ csrf_token() }}"
+                        }),
+                        success: function (res) {
+                            console.log('✅ MQTT sent:', res);
+                        },
+                        error: function (err) {
+                            console.error('❌ Error sending to MQTT:', err.responseJSON);
+                        }
+                    });
+                });
             })
         </script> 
         

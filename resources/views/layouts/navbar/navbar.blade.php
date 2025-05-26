@@ -70,6 +70,16 @@ $today = Carbon\Carbon::now();
                     </div>
                 </div>
                 <div class="d-flex align-items-center ms-4" id="kt_header_user_menu_toggle">
+                    <div class="align-items-center py-2 px-0" >
+                        <button
+                            id="stopAllBtn"
+                            class="btn btn-sm btn-danger mx-5"
+                            style="width: 100px;"
+                            title="Stop"
+                        >
+                            <span><i class="fa-solid fa-stop"></i> Stop All</span>
+                        </button>
+                    </div>
                     <div class="btn btn-flex align-items-center py-2 px-0" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         {{-- <div class="d-none d-md-flex flex-column align-items-end justify-content-center me-2 me-md-4">
                             <span class="text-dark fw-bolder fs-7 lh-1 mb-1 data-template" style="display:none">{{Carbon\Carbon::parse($today)->dayName}}</span>
@@ -77,18 +87,6 @@ $today = Carbon\Carbon::now();
                             <div class="skeleton h-10px w-70px skeleton-template mb-2"></div>
                             <div class="skeleton h-10px w-150px skeleton-template"></div>
                         </div> --}}
-                        <div class="symbol symbol-30px symbol-md-40px">
-                            <div class="symbol-label fs-1 bg-danger text-primary">
-                                <button
-                                    id="stopBtn"
-                                    class="btn btn-sm btn-danger position-absolute"
-                                    style="top: 0.5rem; right: 0.5rem; z-index: 10;"
-                                    title="Stop"
-                                >
-                                    <i class="fa-solid fa-stop">Stop</i>
-                                </button>
-                            </div>
-                        </div>
                         <div class="symbol symbol-30px symbol-md-40px">
                             <div class="symbol-label fs-1 bg-light-primary text-primary">{{$firstLetter}}</div>
                         </div>

@@ -23,15 +23,12 @@
                     Result will appear here...
                 </div>
 
-                <form id="pingForm">
+                <form id="tcpdumpForm">
+                    {{-- <input type="hidden" name="mode" value="0"> --}}
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
-                            <label class="form-label">Ip</label>
-                            <input type="text" name="ip" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Top Ports</label>
-                            <input type="text" name="top_ports" class="form-control">
+                            <label class="form-label">Port</label>
+                            <input type="text" name="port" class="form-control" required>
                         </div>
                     </div>
 
@@ -55,21 +52,19 @@
 
 <script>
     $(document).ready(function () {
-        $('#pingForm').on('submit', function (e) {
+        $('#tcpdumpForm').on('submit', function (e) {
             e.preventDefault();
 
             let mode = "1";
-            let ip = $('input[name="ip"]').val();
-            let top_ports = $('input[name="top_ports"]').val();
+            let port = $('input[name="port"]').val();
 
             $.ajax({
-                url: "{{ route('nmap.send') }}",
+                url: "{{ route('modbus.publish-tcpdump') }}",
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
                     mode: mode,
-                    ip: ip,
-                    top_ports: top_ports,
+                    port: port,
                     _token: "{{ csrf_token() }}"
                 }),
                 success: function (res) {
@@ -85,17 +80,15 @@
             e.preventDefault();
 
             let mode = "0";
-            let ip = $('input[name="ip"]').val();
-            let top_ports = $('input[name="top_ports"]').val();
+            let port = $('input[name="port"]').val();
 
             $.ajax({
-                url: "{{ route('nmap.send') }}",
+                url: "{{ route('modbus.publish-tcpdump') }}",
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
                     mode: mode,
-                    ip: ip,
-                    top_ports: top_ports,
+                    port: port,
                     _token: "{{ csrf_token() }}"
                 }),
                 success: function (res) {
@@ -118,11 +111,12 @@
     });
 
     let resultBox = "";
-        window.Echo.channel('nmap-output')
+        window.Echo.channel('ping-output')
             .listen('.output', function (e) {
                 // console.log(e.payload);
                 resultBox += `<p>${e.payload}</p>`;
                 $('#resultBox').html(resultBox);
+                $('#resultBox').scrollTop(this.scrollHeight);
             });
 </script>
 @endpush

@@ -30,11 +30,19 @@
                             <input type="number" name="function_code" class="form-control" required>
                         </div> --}}
                         <div class="col-md-6">
+                            <label class="form-label">Ip Address</label>
+                            <input type="text" name="ip_address" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Port</label>
+                            <input type="number" name="port" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
                             <label class="form-label">Device Id</label>
                             <input type="number" name="device_id" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Address</label>
+                            <label class="form-label">Register</label>
                             <input type="number" name="address" class="form-control" required>
                         </div>
                         <div class="col-md-6">
@@ -60,6 +68,8 @@
         $('#modbusForm').on('submit', function (e) {
             e.preventDefault();
 
+            let ip_address = $('input[name="ip_address"]').val();
+            let port = $('input[name="port"]').val();
             let address = $('input[name="address"]').val();
             let value = $('input[name="value"]').val();
             // let functionCode = $('input[name="function_code"]').val();
@@ -70,6 +80,8 @@
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
+                    ip_address: ip_address,
+                    port: port,
                     address: address,
                     // function_code: functionCode,
                     device_id: deviceId,

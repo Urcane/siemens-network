@@ -27,6 +27,7 @@ class MqttConsoleBridge extends Command
             'nmap/output/msg' => NmapOutput::class,
             'flood/output/msg' => FloodOutput::class,
             'flood/output/error' => FloodOutputError::class,
+            'modbus/tcpdump/output' => FloodOutputError::class,
         ];
 
         while (true) {

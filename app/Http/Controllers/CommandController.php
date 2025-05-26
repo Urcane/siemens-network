@@ -64,4 +64,20 @@ class CommandController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function stopAll(Request $request)
+    {
+        $validated = $request->validate([
+            'mode' => 'required|boolean',
+        ]);
+
+        $data = [
+            'mode' => 'stop',
+        ];
+
+        $mqtt = MQTT::connection('default3');
+        $mqtt->publish('stop/all', json_encode($data), 0);
+
+        return response()->json(['success' => true]);
+    }
 }
