@@ -74,7 +74,7 @@
                             <select class="form-control bs-select" data-live-search="false" id="interface" name="interface">
                                 <option value="">Select Interface</option>
                                 <option value="eth0">eth0</option>
-                                <option value="lo0">lo0</option>
+                                <option value="lo">lo</option>
                             </select>
                         </div>
                         
