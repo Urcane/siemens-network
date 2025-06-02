@@ -11,6 +11,10 @@ use App\Events\ModbusOutputWrite;
 use App\Events\ModbusTcpdumpOutput;
 use App\Events\NmapOutput;
 use App\Events\PingOutput;
+use App\Events\StatusFlood;
+use App\Events\StatusModbus;
+use App\Events\StatusNmap;
+use App\Events\StatusPing;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Exceptions\MqttClientException;
 
@@ -29,6 +33,10 @@ class MqttConsoleBridge extends Command
             'flood/output/msg' => FloodOutput::class,
             'flood/output/error' => FloodOutputError::class,
             'modbus/tcpdump/output' => ModbusTcpdumpOutput::class,
+            'status/ping' => StatusPing::class,
+            'status/flood' => StatusFlood::class,
+            'status/nmap' => StatusNmap::class,
+            'status/modbus' => StatusModbus::class,
         ];
 
         while (true) {

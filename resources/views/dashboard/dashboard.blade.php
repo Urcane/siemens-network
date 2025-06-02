@@ -82,7 +82,7 @@
 
                     <div class="row g-3">
                         <div class="col-md-8">
-                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+                            <button type="submit" class="btn btn-primary w-100" id="btnSubmit-modbus">Submit</button>
                         </div>
                         <div class="col-md-4">
                             <button type="button" id="stopBtn" class="btn btn-danger w-100">Stop</button>

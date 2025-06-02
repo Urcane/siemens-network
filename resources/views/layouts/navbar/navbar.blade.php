@@ -69,7 +69,7 @@ $today = Carbon\Carbon::now();
 			
                     </div>
                 </div>
-                <div class="d-flex align-items-center ms-4" id="kt_header_user_menu_toggle">
+                <div class="d-flex align-items-center ms-4">
                     <div class="align-items-center py-2 px-0" >
                         <button
                             id="stopAllBtn"
@@ -80,6 +80,96 @@ $today = Carbon\Carbon::now();
                             <span><i class="fa-solid fa-stop"></i> Stop All</span>
                         </button>
                     </div>
+                </div>
+                <div class="d-flex align-items-center ms-4" id="kt_header_user_menu_toggle">
+                    <div
+                        class="btn btn-flex align-items-center py-2 px-0"
+                        data-kt-menu-trigger="click"
+                        data-kt-menu-attach="parent"
+                        data-kt-menu-placement="bottom-end"
+                        >
+                        <div class="symbol symbol-30px symbol-md-40px">
+                            <!--
+                                1) Removed fs-1
+                                2) Added d-flex align-items-center justify-content-center
+                                3) Kept text-white on both <div> and <i>
+                                -->
+                                <div
+                                    class="symbol-label d-flex align-items-center justify-content-center text-white"
+                                    style="background-color: darkorange;"
+                                >
+                                &nbsp;<i class="fa-solid fa-bell text-white fs-4"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px" data-kt-menu="true">
+                        <div class="scroll-y mh-500px px-3">
+                            <div class="px-3 py-3">
+                                <h4 class="text-dark m-0">Notifications</h4>
+                            </div>
+
+                            <a href="#" class="d-flex align-items-center px-3 py-3 rounded bg-hover-light process-item" id="modbus-item">
+                                <div class="symbol symbol-40px me-4">
+                                    <div class="symbol-label bg-secondary text-white" id="modbus-icon-wrapper">
+                                        <i class="fa-solid fa-network-wired" id="modbus-static-icon"></i>
+                                        <i class="fa-solid fa-spinner fa-spin text-white d-none" id="modbus-spinner-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fs-6 text-gray-800">Modbus Read Process</span>
+                                    <span class="fs-7 text-muted" id="modbus-process-status">Available</span>
+                                </div>
+                            </a>
+
+                            <a href="#" class="d-flex align-items-center px-3 py-3 rounded bg-hover-light process-item" id="ping-item">
+                                <div class="symbol symbol-40px me-4">
+                                    <div class="symbol-label bg-primary text-white" id="ping-icon-wrapper">
+                                        <!-- static icon (always white) -->
+                                        <i class="fa-solid fa-circle-exclamation text-white" id="ping-static-icon"></i>
+                                        <!-- spinner icon (always white, but hidden by default) -->
+                                        <i class="fa-solid fa-spinner fa-spin text-white d-none" id="ping-spinner-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fs-6 text-gray-800">Ping Process</span>
+                                    <span class="fs-7 text-muted" id="ping-process-status">Available</span>
+                                </div>
+                            </a>
+                            
+                            <!-- Nmap Process -->
+                            <a href="#" class="d-flex align-items-center px-3 py-3 rounded bg-hover-light process-item" id="nmap-item">
+                                <div class="symbol symbol-40px me-4">
+                                    <div class="symbol-label bg-success text-white" id="nmap-icon-wrapper">
+                                        <i class="fa-solid fa-ethernet text-white" id="nmap-static-icon"></i>
+                                        <i class="fa-solid fa-spinner fa-spin text-white d-none" id="nmap-spinner-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fs-6 text-gray-800">Nmap Process</span>
+                                    <span class="fs-7 text-muted" id="nmap-process-status">Available</span>
+                                </div>
+                            </a>
+                            
+                            <!-- Flood Process -->
+                            <a href="#" class="d-flex align-items-center px-3 py-3 rounded bg-hover-light process-item" id="flood-item">
+                                <div class="symbol symbol-40px me-4">
+                                    <div class="symbol-label bg-warning text-white" id="flood-icon-wrapper">
+                                        <i class="fa-solid fa-house-flood-water-circle-arrow-right text-white" id="flood-static-icon"></i>
+                                        <i class="fa-solid fa-spinner fa-spin text-white d-none" id="flood-spinner-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fs-6 text-gray-800">Flood Process</span>
+                                    <span class="fs-7 text-muted" id="flood-process-status">Available</span>
+                                </div>
+                            </a>
+                            
+                            <!-- Add more items here -->
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center ms-4" id="kt_header_user_menu_toggle">
+                    
                     <div class="btn btn-flex align-items-center py-2 px-0" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
                         {{-- <div class="d-none d-md-flex flex-column align-items-end justify-content-center me-2 me-md-4">
                             <span class="text-dark fw-bolder fs-7 lh-1 mb-1 data-template" style="display:none">{{Carbon\Carbon::parse($today)->dayName}}</span>
@@ -122,4 +212,89 @@ $today = Carbon\Carbon::now();
         </div>
     </div>
 </div>
+<script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+<script src="/js/app.js"></script>
+<script>
+    const processes = [
+        { name: 'ping', bgIdle: 'bg-primary' },
+        { name: 'nmap', bgIdle: 'bg-success' },
+        { name: 'flood', bgIdle: 'bg-warning' },
+        { name: 'modbus', bgIdle: 'bg-secondary' },
+    ];
+        
+    processes.forEach(proc => {
+        const channelName       = `${proc.name}-process-status`;
+        const statusSelector    = `#${proc.name}-process-status`;
+        const wrapperSelector   = `#${proc.name}-icon-wrapper`;
+        const staticIconSel     = `#${proc.name}-static-icon`;
+        const spinnerIconSel    = `#${proc.name}-spinner-icon`;
+        
+        window.Echo
+        .channel(channelName)
+        .listen('.output', e => {
+            // console.log(e.payload);
+            
+            const $statusText   = $(statusSelector);
+            const $iconWrapper  = $(wrapperSelector);
+            const $staticIcon   = $(staticIconSel);
+            const $spinnerIcon  = $(spinnerIconSel);
+            
+            let isRunning = false;
+            let extraInfo = '';
+            
+            // If payload is a string "running"
+            if (typeof e.payload === 'string' && e.payload === 'running') {
+                isRunning = true;
+            }
+            // If payload is an object { status: "running", info: "..."}
+            else if (typeof e.payload === 'object' && e.payload !== null) {
+                if (e.payload.status === 'running') {
+                    isRunning = true;
+                    extraInfo = e.payload.info || '';
+                }
+            }
+            
+            if (isRunning) {
+                // 1) Show spinner, hide static icon
+                $staticIcon.addClass('d-none');
+                $spinnerIcon.removeClass('d-none');
+                
+                // 2) Change circle background to red (bg-danger)
+                $iconWrapper
+                .removeClass(proc.bgIdle + ' bg-danger')
+                .addClass('bg-danger');
+                
+                // 3) Status text becomes dark, append extra info if any
+                let displayText = 'Running...';
+                if (extraInfo.length) {
+                    displayText += ` ${extraInfo}`;
+                }
+                $statusText
+                .text(displayText)
+                .removeClass('text-muted text-white')
+                .addClass('text-gray-800');
+
+                $(`#btnSubmit-${proc.name}`).attr('disabled', 'disabled');
+            }
+            else {
+                // 1) Hide spinner, show static icon
+                $spinnerIcon.addClass('d-none');
+                $staticIcon.removeClass('d-none');
+                
+                // 2) Restore original background (e.g. bg-primary)
+                $iconWrapper
+                .removeClass('bg-danger')
+                .addClass(proc.bgIdle);
+                
+                // 3) Reset status text to "Available" (muted gray)
+                $statusText
+                .text('Available')
+                .removeClass('text-gray-800 text-white')
+                .addClass('text-muted');
+
+                $(`#btnSubmit-${proc.name}`).removeAttr('disabled');
+            }
+        });
+    });
+</script>
 
