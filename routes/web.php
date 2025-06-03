@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/modbus/read', [ModbusController::class, 'publishRead'])->name('modbus.publish-read');
 Route::post('/modbus/tcpdump', [ModbusController::class, 'publishTcpdump'])->name('modbus.publish-tcpdump');
 Route::post('/modbus/write', [ModbusController::class, 'publishWrite'])->name('modbus.publish-write');
+Route::post('/modbus/status', [ModbusController::class, 'publishStatus'])->name('modbus.publish-status');
 Route::post('/ping/send', [CommandController::class, 'publishPing'])->name('ping.send');
 Route::post('/nmap/send', [CommandController::class, 'publishNmap'])->name('nmap.send');
 Route::post('/flood/send', [CommandController::class, 'publishFlood'])->name('flood.send');
