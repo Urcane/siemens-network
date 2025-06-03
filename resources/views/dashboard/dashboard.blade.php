@@ -272,7 +272,7 @@
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
-                    value: 'stop'
+                    value: 'stop',
                     _token: "{{ csrf_token() }}"
                 }),
                 success: function (res) {
