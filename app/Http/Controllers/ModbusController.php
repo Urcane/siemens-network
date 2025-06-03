@@ -29,6 +29,7 @@ class ModbusController extends Controller
 
         $mqtt = MQTT::connection('default3');
         $mqtt->publish('modbus/read/input', json_encode($data), 0);
+        $mqtt->publish('status/modbus', 'running', 0);
 
         return response()->json(['success' => true]);
     }
@@ -76,6 +77,17 @@ class ModbusController extends Controller
 
         $mqtt = MQTT::connection('default3');
         $mqtt->publish('modbus/tcpdump/input', json_encode($data), 0);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function publishStatus(Request $request) {
+        $validated = $request->validate([
+            'value' => 'required',
+        ]);
+
+        $mqtt = MQTT::connection('default3');
+        $mqtt->publish('status/modbus', $validated['value'], 0);
 
         return response()->json(['success' => true]);
     }
