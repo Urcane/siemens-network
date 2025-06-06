@@ -98,6 +98,22 @@
 						<span class="menu-title">Flood Test</span>
 					</a>
 				</div>
+				<div class="menu-item">
+					<a class="menu-link" href="{{route('icmp.index')}}">
+						<span class="menu-icon">
+							<i class="fa-solid fa-ethernet"></i>
+						</span>
+						<span class="menu-title">ICMP Scan</span>
+					</a>
+				</div>
+				<div class="menu-item">
+					<a class="menu-link" href="{{route('ddos.index')}}">
+						<span class="menu-icon">
+							<i class="fa-solid fa-ethernet"></i>
+						</span>
+						<span class="menu-title">DDOS DNS</span>
+					</a>
+				</div>
 				@role('administrator')
 				<div class="menu-item">
 					<a class="menu-link" href="{{route('user.management.index')}}">
