@@ -49,9 +49,9 @@ Route::post('/modbus/write', [ModbusController::class, 'publishWrite'])->name('m
 Route::post('/modbus/status', [ModbusController::class, 'publishStatus'])->name('modbus.publish-status');
 Route::post('/ping/send', [CommandController::class, 'publishPing'])->name('ping.send');
 Route::post('/nmap/send', [CommandController::class, 'publishNmap'])->name('nmap.send');
-Route::post('/icmp/send', [CommandController::class, 'publishIcmp'])->name('nmap.send');
+Route::post('/icmp/send', [CommandController::class, 'publishIcmp'])->name('icmp.send');
 Route::post('/flood/send', [CommandController::class, 'publishFlood'])->name('flood.send');
-Route::post('/ddos/send', [CommandController::class, 'publishDdos'])->name('flood.send');
+Route::post('/ddos/send', [CommandController::class, 'publishDdos'])->name('ddos.send');
 Route::post('/stop/all', [CommandController::class, 'stopAll'])->name('stop.all');
 
 require __DIR__ . '/auth.php';
