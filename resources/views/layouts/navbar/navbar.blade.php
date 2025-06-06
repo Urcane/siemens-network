@@ -303,6 +303,7 @@ $today = Carbon\Carbon::now();
                 .addClass('text-gray-800');
 
                 $(`#btnSubmit-${proc.name}`).attr('disabled', 'disabled');
+                $(`#btnSubmit-${proc.name}`).removeClass('btn-primary').addClass('btn-secondary');
             }
             else {
                 // 1) Hide spinner, show static icon
@@ -321,6 +322,7 @@ $today = Carbon\Carbon::now();
                 .addClass('text-muted');
 
                 $(`#btnSubmit-${proc.name}`).removeAttr('disabled');
+                $(`#btnSubmit-${proc.name}`).removeClass('btn-secondary').addClass('btn-primary');
             }
         });
     });
