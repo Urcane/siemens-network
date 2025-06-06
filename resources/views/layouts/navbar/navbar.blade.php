@@ -163,6 +163,32 @@ $today = Carbon\Carbon::now();
                                     <span class="fs-7 text-muted" id="flood-process-status">Available</span>
                                 </div>
                             </a>
+
+                            <a href="#" class="d-flex align-items-center px-3 py-3 rounded bg-hover-light process-item" id="icmp-item">
+                                <div class="symbol symbol-40px me-4">
+                                    <div class="symbol-label bg-success text-white" id="icmp-icon-wrapper">
+                                        <i class="fa-solid fa-ethernet text-white" id="icmp-static-icon"></i>
+                                        <i class="fa-solid fa-spinner fa-spin text-white d-none" id="icmp-spinner-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fs-6 text-gray-800">Icmp Process</span>
+                                    <span class="fs-7 text-muted" id="icmp-process-status">Available</span>
+                                </div>
+                            </a>
+
+                            <a href="#" class="d-flex align-items-center px-3 py-3 rounded bg-hover-light process-item" id="ddos-item">
+                                <div class="symbol symbol-40px me-4">
+                                    <div class="symbol-label bg-danger text-white" id="ddos-icon-wrapper">
+                                        <i class="fa-solid fa-house-flood-water-circle-arrow-right text-white" id="ddos-static-icon"></i>
+                                        <i class="fa-solid fa-spinner fa-spin text-white d-none" id="ddos-spinner-icon"></i>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-column">
+                                    <span class="fs-6 text-gray-800">DDOS DNS Process</span>
+                                    <span class="fs-7 text-muted" id="ddos-process-status">Available</span>
+                                </div>
+                            </a>
                             
                             <!-- Add more items here -->
                         </div>
@@ -220,6 +246,8 @@ $today = Carbon\Carbon::now();
         { name: 'nmap', bgIdle: 'bg-success' },
         { name: 'flood', bgIdle: 'bg-warning' },
         { name: 'modbus', bgIdle: 'bg-secondary' },
+        { name: 'icmp', bgIdle: 'bg-success' },
+        { name: 'ddos', bgIdle: 'bg-danger' },
     ];
         
     processes.forEach(proc => {

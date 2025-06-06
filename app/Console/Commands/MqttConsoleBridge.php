@@ -2,8 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Events\DdosOutput;
+use App\Events\DdosOutputError;
 use App\Events\FloodOutput;
 use App\Events\FloodOutputError;
+use App\Events\IcmpOutput;
 use Illuminate\Console\Command;
 use PhpMqtt\Client\Facades\MQTT;
 use App\Events\ModbusOutputReceived;
@@ -30,16 +33,18 @@ class MqttConsoleBridge extends Command
             'modbus/write/output' => ModbusOutputWrite::class,
             'ping/output/msg' => PingOutput::class,
             'nmap/output/msg' => NmapOutput::class,
-            'icmp/output/msg' => NmapOutput::class,
+            'icmp/output/msg' => IcmpOutput::class,
             'flood/output/msg' => FloodOutput::class,
             'flood/output/error' => FloodOutputError::class,
-            'ddos/output/msg' => FloodOutput::class,
-            'ddos/output/error' => FloodOutputError::class,
+            'ddos/output/msg' => DdosOutput::class,
+            'ddos/output/error' => DdosOutputError::class,
             'modbus/tcpdump/output' => ModbusTcpdumpOutput::class,
             'status/ping' => StatusPing::class,
             'status/flood' => StatusFlood::class,
             'status/nmap' => StatusNmap::class,
             'status/modbus' => StatusModbus::class,
+            'status/icmp' => StatusModbus::class,
+            'status/ddos' => StatusModbus::class,
         ];
 
         while (true) {
