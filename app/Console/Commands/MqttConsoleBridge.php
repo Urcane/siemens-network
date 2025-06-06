@@ -18,6 +18,8 @@ use App\Events\StatusFlood;
 use App\Events\StatusModbus;
 use App\Events\StatusNmap;
 use App\Events\StatusPing;
+use App\Events\StatusIcmp;
+use App\Events\StatusDdos;
 use Illuminate\Support\Facades\Log;
 use PhpMqtt\Client\Exceptions\MqttClientException;
 
@@ -43,8 +45,8 @@ class MqttConsoleBridge extends Command
             'status/flood' => StatusFlood::class,
             'status/nmap' => StatusNmap::class,
             'status/modbus' => StatusModbus::class,
-            'status/icmp' => StatusModbus::class,
-            'status/ddos' => StatusModbus::class,
+            'status/icmp' => StatusIcmp::class,
+            'status/ddos' => StatusDdos::class,
         ];
 
         while (true) {

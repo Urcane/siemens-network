@@ -6,7 +6,7 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class StatusModbus implements ShouldBroadcastNow
+class StatusIcmp implements ShouldBroadcastNow
 {
     use InteractsWithSockets;
 
